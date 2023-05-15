@@ -7,37 +7,64 @@
  */
 var loader = {
     id: 'loader', 				// CSS Id
-    template: '<div>{0}</div>', // message template
     isBusy: false,
     delay: 1000, 				// until this time the message is displayed
     show: function (message) {
-        var $loader = $('#' + this.id);
-        if ($('#' + this.id).length === 0) {
-            $loader = $('<div id="' + this.id + '"><div><p></p></div></div>');
-            $('body').append($loader);
-        }
+        var $loader = document.getElementById(this.id); 
+        if ($loader === null) {
+            $loader = document.createElement('div');
+            $loader.id = this.id;
+            $loader.innerHTML = '<div><p></p></div>';
+            document.body.appendChild($loader);
+        }        
         // create loading message
-        var $current = $(this.template.replace('{0}', message.replace(/\n/g, '<br/>')));
-        $current.insertBefore($loader.find('p'));
+        var $current = document.createElement('div');
+        $current.innerHTML = message.replace(/\n/g, '<br/>');
+        $loader.getElementsByTagName('p')[0].parentElement.insertBefore($current, null);        
         // check is time to... 
         if (!this.isBusy) {
             this.isBusy = true;
             setTimeout(function () {
                 if (loader.isBusy) {
-                    $('#' + loader.id).fadeIn();
+                    loader.fadeIn();
                 }
             }, this.delay);
         }
     },
     hide: function () {
         this.isBusy = false;
-        $('#' + this.id).fadeOut('slow');
+        loader.fadeOut();
         this.clear();
     },
     clear: function () {
-        var $messages = $('#' + this.id + ' > div > div');
+        var $messages = document.querySelector('#' + this.id + ' > div').getElementsByTagName('div');
         if ($messages.length > 0) {
-            $messages.remove();
+            for (var i = $messages.length - 1; i >= 0; --i) {
+                $messages[i].remove();
+            }
         }
+    },
+    fadeIn: function () {
+        var $loader = document.getElementById(this.id); 
+        $loader.style.opacity = 0;
+        $loader.style.display = 'block';
+        (function fade() {
+            let val = parseFloat($loader.style.opacity);            
+            if (!((val += 0.1) > 1)) { 
+                $loader.style.opacity = val;
+                requestAnimationFrame(fade);
+            }
+        })();
+    },
+    fadeOut: function() {
+        var $loader = document.getElementById(this.id); 
+        $loader.style.opacity = 1;
+        (function fade() {            
+            if (($loader.style.opacity -= 0.2) < 0) {
+                $loader.style.display = 'none';
+            } else {
+                requestAnimationFrame(fade);
+            }
+        })();
     }
 };
