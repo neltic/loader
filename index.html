@@ -1,56 +1,80 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Loader test</title>
-    <link rel="stylesheet" href="static/css/loader.css">
-    <script type="text/javascript" src="static/js/loader.js"></script>
-    <style type="text/css">
-      main { margin: 0 auto; text-align: center; }
-      fieldset { border: none; }
-      button { background-color: #4cb6bb; padding: 16px; border-radius: 8px; border: solid 3px #369ba0; color: #fff; font-weight: 600; cursor: pointer; margin: 16px; }
-      button:disabled { background-color: #888; border-color: #888; cursor:not-allowed; }      
-    </style>    
-  </head>
-  <body>
-    <main>
-      <fieldset id="demo">
-        <button onclick="testLoader()">Demo loader</button>
-        <button onclick="testFastLoad()">Test fast load</button>  
-      </fieldset>
-    </main>
-    <script type="text/javascript">
 
-      var $demo = document.getElementById('demo');
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Loader test</title>
+  <link rel="stylesheet" href="static/css/loader.css">
+  <script type="text/javascript" src="static/js/loader.js"></script>
+  <style type="text/css">
+    main {
+      margin: 0 auto;
+      text-align: center;
+    }
 
-      function testLoader() {
-        $demo.disabled = true;
-        loader.show('Cargando información...\n(demora 1 segundo en aparecer)');
-        setTimeout(function() {
-          loader.show('Nuevo texto de carga tras 3 segundos...');
-          setTimeout(function() {
-            loader.clear();
-            loader.show('En 5 segundos más se cierra de forma automática...');
-            setTimeout(function() {
-              loader.hide();
-              $demo.disabled = false;
-            }, 5000);          
-          }, 2000);
-        }, 3000);
-      }
+    fieldset {
+      border: none;
+    }
 
-      function testFastLoad() {
-        $demo.disabled = true;
-        loader.show('No tendría que aparecer');
-        setTimeout(function() {
-          loader.hide();
-          $demo.disabled = false;
-          alert('Proceso finalizado (no debe haberse mostrado el "loader")');
-        }, 500);
-      } 
+    button {
+      background-color: #4cb6bb;
+      padding: 16px;
+      border-radius: 8px;
+      border: solid 3px #369ba0;
+      color: #fff;
+      font-weight: 600;
+      cursor: pointer;
+      margin: 16px;
+    }
 
-    </script>
-  </body>
+    button:disabled {
+      background-color: #888;
+      border-color: #888;
+      cursor: not-allowed;
+    }
+  </style>
+</head>
+
+<body>
+  <main>
+    <fieldset id="demo">
+      <button onclick="testLoader()">Demo loader</button>
+      <button onclick="testFastLoad()">Test fast load</button>
+    </fieldset>
+  </main>
+  <script type="text/javascript">
+
+    var $demo = document.getElementById('demo');
+
+    function testLoader() {
+      $demo.disabled = true;
+      loader.show('Cargando información...\n(demora 1 segundo en aparecer)');
+      setTimeout(function () {
+        loader.show('Nuevo texto de carga tras 3 segundos...');
+        setTimeout(function () {
+          loader.clear();
+          loader.show('En 5 segundos más se cierra de forma automática...');
+          setTimeout(function () {
+            loader.hide();
+            $demo.disabled = false;
+          }, 5000);
+        }, 2000);
+      }, 3000);
+    }
+
+    function testFastLoad() {
+      $demo.disabled = true;
+      loader.show('No tendría que aparecer');
+      setTimeout(function () {
+        loader.hide();
+        $demo.disabled = false;
+        alert('Proceso finalizado (no debe haberse mostrado el "loader")');
+      }, 500);
+    }
+
+  </script>
+</body>
+
 </html>
